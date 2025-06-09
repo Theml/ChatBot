@@ -2,15 +2,16 @@ from gpt4all import GPT4All
 from pathlib import Path
 
 # Caminho para o modelo
-model_path = Path(r"C:\Users\Luisg\Documents\Faculdade\IA\Chatbot\models" )
+# model_path = Path(r"C:/Users/Luisg/AppData/Roaming/nomic.ai")
+model_path = Path(r"C:/Users/Luisg/Documents/Faculdade/IA/Chatbot")
 
-model_name="Mistral-Small-3.1-24B-Instruct-2503.gguf"
+model_name = "DeepSeek-R1-Distill-Qwen-1.5B-BF16.gguf"
 
 # Inicializa o modelo GPT4All
 llm = GPT4All(
     model_name=model_name,
     model_path=str(model_path),
-    allow_download=False
+    allow_download=True
 )
 
 # Testa o modelo com uma sessão de chat
