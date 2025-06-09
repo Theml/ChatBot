@@ -1,0 +1,648 @@
+{
+  "metadata": {
+    "name": "Salus Health Assistant Training Data",
+    "version": "1.1",
+    "language": "pt-BR",
+    "description": "Base de conhecimento em saúde para o Salus Health Assistant",
+    "last_updated": "2024-06-09",
+    "last_merged": "2025-06-09"
+  },
+  "categories": {
+    "habitos_saudaveis": {
+      "topics": [
+        {
+          "intent": "proteinas_magras",
+          "patterns": [
+            "Quais alimentos são considerados fontes de proteína magra?"
+          ],
+          "responses": [
+            "Frango sem pele, peixe (salmão, tilápia), ovos, leguminosas (lentilha, grão de bico), tofu, laticínios desnatados e cortes magros de carne vermelha."
+          ],
+          "context": "alimentação_saudável, proteína",
+          "keywords": [
+            "proteína",
+            "alimentação",
+            "saudável"
+          ]
+        },
+        {
+          "intent": "atividade_fisica_adulta",
+          "patterns": [
+            "Qual a recomendação de tempo de atividade física moderada por semana para adultos?"
+          ],
+          "responses": [
+            "A Organização Mundial da Saúde (OMS) recomenda pelo menos 150 a 300 minutos de atividade física aeróbica de intensidade moderada por semana, ou 75 a 150 minutos de atividade física aeróbica de intensidade vigorosa, ou uma combinação equivalente de atividades de intensidade moderada e vigorosa."
+          ],
+          "context": "atividade_física, saúde_preventiva",
+          "keywords": [
+            "atividade física",
+            "exercício",
+            "OMS"
+          ]
+        },
+        {
+          "intent": "higiene_maos",
+          "patterns": [
+            "Por que a higiene das mãos é tão importante?"
+          ],
+          "responses": [
+            "A higiene das mãos é crucial para prevenir a propagação de germes e doenças, como gripes, resfriados e infecções gastrointestinais. Lavar as mãos remove bactérias e vírus que podem ser adquiridos ao tocar superfícies e pessoas."
+          ],
+          "context": "prevenção, higiene",
+          "keywords": [
+            "higiene",
+            "prevenção",
+            "mãos"
+          ]
+        }
+      ]
+    },
+    "saude": {
+      "topics": [
+        {
+          "intent": "sintomas_gripe",
+          "patterns": [
+            "Quais são os sintomas mais comuns da gripe?"
+          ],
+          "responses": [
+            "Febre, tosse, dor de garganta, dores musculares e nas articulações, dor de cabeça, fadiga e coriza."
+          ],
+          "context": "doença_comum, virose",
+          "keywords": [
+            "gripe",
+            "sintomas",
+            "virose"
+          ]
+        },
+        {
+          "intent": "exames_homens_40",
+          "patterns": [
+            "Quais exames de rotina são importantes para homens acima de 40 anos?"
+          ],
+          "responses": [
+            "Exames de sangue (colesterol, glicemia, triglicerídeos), pressão arterial, exames de próstata (PSA e toque retal, a critério médico), e consulta cardiológica, entre outros, dependendo do histórico familiar e estilo de vida."
+          ],
+          "context": "prevenção, checkup_masculino",
+          "keywords": [
+            "exames",
+            "saúde masculina",
+            "rotina"
+          ]
+        },
+        {
+          "intent": "hidratacao",
+          "patterns": [
+            "Qual a importância da hidratação para a saúde?"
+          ],
+          "responses": [
+            "A hidratação adequada é essencial para o bom funcionamento de todos os sistemas do corpo, incluindo regulação da temperatura, transporte de nutrientes, lubrificação de articulações e eliminação de toxinas. A falta de água pode levar à fadiga, dor de cabeça e outros problemas de saúde."
+          ],
+          "context": "nutrição, hidratação",
+          "keywords": [
+            "água",
+            "hidratação",
+            "saúde"
+          ]
+        },
+        {
+          "intent": "vacinas_importantes_adultos",
+          "patterns": [
+            "Quais vacinas são importantes para adultos?",
+            "Que vacinas preciso tomar depois dos 30 anos?"
+          ],
+          "responses": [
+            "Adultos devem manter em dia vacinas como tétano, hepatite B, febre amarela, influenza (gripe), COVID-19 e, dependendo da idade, a vacina contra herpes-zóster."
+          ],
+          "context": "vacinação, adultos",
+          "keywords": [
+            "vacina",
+            "adulto",
+            "imunização"
+          ]
+        },
+        {
+          "intent": "checkup_mulher",
+          "patterns": [
+            "Quais exames de rotina uma mulher deve fazer?",
+            "Que exames são recomendados para mulheres?"
+          ],
+          "responses": [
+            "Papanicolau, mamografia (a partir dos 50 anos), exames de sangue, aferição da pressão arterial, glicemia e exames ginecológicos são recomendados."
+          ],
+          "context": "prevenção, saúde da mulher",
+          "keywords": [
+            "exames",
+            "mulher",
+            "prevenção"
+          ]
+        },
+        {
+          "intent": "diabetes_sintomas",
+          "patterns": [
+            "Quais os sintomas do diabetes?",
+            "Como saber se estou com diabetes?"
+          ],
+          "responses": [
+            "Sede excessiva, urinar com frequência, fome constante, perda de peso inexplicável, visão embaçada e cansaço frequente podem ser sinais de diabetes."
+          ],
+          "context": "diabetes, sintomas",
+          "keywords": [
+            "diabetes",
+            "sintomas",
+            "glicemia"
+          ]
+        },
+        {
+          "intent": "asma_tratamento",
+          "patterns": [
+            "Como controlar a asma?",
+            "O que ajuda a aliviar crises de asma?"
+          ],
+          "responses": [
+            "Evite alérgenos, use medicações prescritas (como broncodilatadores) e mantenha acompanhamento médico regular. Nunca se automedique."
+          ],
+          "context": "doença_crônica, respiração",
+          "keywords": [
+            "asma",
+            "crise respiratória",
+            "tratamento"
+          ]
+        }
+      ]
+    },
+    "bem_estar": {
+      "topics": [
+        {
+          "intent": "sono_saude_mental",
+          "patterns": [
+            "Como o sono afeta a saúde mental?"
+          ],
+          "responses": [
+            "A privação de sono pode levar a irritabilidade, dificuldade de concentração, problemas de memória, aumento do estresse e ansiedade, e pode agravar condições como depressão."
+          ],
+          "context": "saúde_mental, sono",
+          "keywords": [
+            "sono",
+            "saúde mental",
+            "descanso"
+          ]
+        },
+        {
+          "intent": "tecnicas_relaxamento",
+          "patterns": [
+            "Quais técnicas de relaxamento podem ajudar a reduzir o estresse?"
+          ],
+          "responses": [
+            "Respiração profunda, meditação, yoga, mindfulness, exercícios físicos, ouvir música relaxante, passar tempo na natureza e hobbies que proporcionem prazer."
+          ],
+          "context": "saúde_mental, estresse",
+          "keywords": [
+            "relaxamento",
+            "estresse",
+            "bem-estar"
+          ]
+        },
+        {
+          "intent": "sono_qualidade",
+          "patterns": [
+            "Como melhorar a qualidade do sono?",
+            "O que fazer para dormir melhor?"
+          ],
+          "responses": [
+            "Crie uma rotina regular, evite telas antes de dormir, mantenha o quarto escuro e silencioso, evite cafeína à noite e pratique técnicas de relaxamento."
+          ],
+          "context": "sono, qualidade de vida",
+          "keywords": [
+            "sono",
+            "insônia",
+            "descanso"
+          ]
+        },
+        {
+          "intent": "autoestima_dicas",
+          "patterns": [
+            "Como melhorar minha autoestima?",
+            "O que posso fazer para me sentir melhor comigo mesmo?"
+          ],
+          "responses": [
+            "Pratique o autoconhecimento, cuide da saúde mental, estabeleça metas realistas e celebre suas conquistas. Terapia psicológica pode ser muito útil."
+          ],
+          "context": "saúde mental, autoestima",
+          "keywords": [
+            "autoestima",
+            "saúde mental",
+            "confiança"
+          ]
+        }
+      ]
+    },
+    "tratamentos_basicos": {
+      "topics": [
+        {
+          "intent": "queimadura_leve",
+          "patterns": [
+            "O que fazer em caso de queimadura leve?"
+          ],
+          "responses": [
+            "Lave a área afetada imediatamente com água fria (não gelada) por vários minutos, cubra com um pano limpo e úmido e evite estourar bolhas. Se a queimadura for maior que a palma da mão, for em áreas sensíveis (rosto, genitais) ou apresentar bolhas grandes, procure ajuda médica."
+          ],
+          "context": "primeiros_socorros, queimaduras",
+          "keywords": [
+            "queimadura",
+            "primeiros socorros",
+            "tratamento"
+          ]
+        },
+        {
+          "intent": "cha_dor_garganta",
+          "patterns": [
+            "Qual chá pode ajudar a aliviar a dor de garganta?"
+          ],
+          "responses": [
+            "Chás de mel com limão, gengibre, camomila ou hortelã podem ajudar a aliviar a dor de garganta devido às suas propriedades anti-inflamatórias e calmantes. É importante ressaltar que não substituem a consulta médica."
+          ],
+          "context": "remédios_caseiros, dor_de_garganta",
+          "keywords": [
+            "chá",
+            "garganta",
+            "remédio natural"
+          ]
+        },
+        {
+          "intent": "primeiros_socorros_desmaio",
+          "patterns": [
+            "O que fazer se alguém desmaiar?",
+            "Como agir em caso de desmaio?"
+          ],
+          "responses": [
+            "Deite a pessoa de costas, levante as pernas, afrouxe roupas apertadas e ventile o ambiente. Se o desmaio durar mais de 1 minuto ou houver lesões, chame o SAMU (192)."
+          ],
+          "context": "primeiros_socorros, emergência",
+          "keywords": [
+            "desmaio",
+            "emergência",
+            "ajuda"
+          ]
+        },
+        {
+          "intent": "dor_cabeca_alivio",
+          "patterns": [
+            "O que fazer para aliviar dor de cabeça?",
+            "Como tratar dor de cabeça leve?"
+          ],
+          "responses": [
+            "Descanse em ambiente escuro e silencioso, hidrate-se, evite telas e, se necessário, use analgésicos comuns (com orientação médica)."
+          ],
+          "context": "tratamento_simples, dor",
+          "keywords": [
+            "dor de cabeça",
+            "alívio",
+            "tratamento"
+          ]
+        },
+        {
+          "intent": "corte_superficial_tratamento",
+          "patterns": [
+            "Como tratar um corte pequeno em casa?",
+            "O que fazer em caso de ferida leve?"
+          ],
+          "responses": [
+            "Lave com água e sabão, use antisséptico, cubra com curativo limpo e observe sinais de infecção. Troque o curativo diariamente."
+          ],
+          "context": "ferimentos, primeiros_socorros",
+          "keywords": [
+            "ferida",
+            "corte",
+            "tratamento"
+          ]
+        }
+      ]
+    },
+    "prevencao": {
+      "topics": [
+        {
+          "intent": "prevenir_diabetes_tipo2",
+          "patterns": [
+            "Como posso prevenir o diabetes tipo 2?",
+            "Quais hábitos ajudam a evitar o diabetes tipo 2?"
+          ],
+          "responses": [
+            "Manter uma alimentação saudável, praticar atividade física regular, manter um peso corporal adequado e fazer exames regulares são medidas importantes para prevenir o diabetes tipo 2."
+          ],
+          "context": "prevenção, diabetes",
+          "keywords": [
+            "diabetes",
+            "prevenção",
+            "alimentação",
+            "exercício"
+          ]
+        },
+        {
+          "intent": "pressao_alta_prevencao",
+          "patterns": [
+            "Como prevenir a hipertensão?",
+            "Quais são os hábitos saudáveis para evitar pressão alta?"
+          ],
+          "responses": [
+            "Reduza o consumo de sal, pratique exercícios regularmente, mantenha o peso saudável, evite álcool em excesso e não fume."
+          ],
+          "context": "prevenção, hipertensão",
+          "keywords": [
+            "pressão alta",
+            "hipertensão",
+            "prevenção",
+            "sal"
+          ]
+        }
+      ]
+    },
+    "nutricao": {
+      "topics": [
+        {
+          "intent": "hidratar_corretamente",
+          "patterns": [
+            "Quantos litros de água devo beber por dia?",
+            "Como manter a hidratação correta?"
+          ],
+          "responses": [
+            "A recomendação média é cerca de 2 litros por dia, mas varia conforme peso, atividade física e clima. Beba aos poucos ao longo do dia."
+          ],
+          "context": "hidratação, saúde",
+          "keywords": [
+            "água",
+            "hidratação",
+            "nutrição"
+          ]
+        },
+        {
+          "intent": "alimentos_fibra",
+          "patterns": [
+            "Quais alimentos são ricos em fibras?",
+            "O que comer para melhorar o intestino?"
+          ],
+          "responses": [
+            "Frutas com casca, vegetais, leguminosas (feijão, lentilha), aveia e cereais integrais são boas fontes de fibra."
+          ],
+          "context": "fibra, intestino",
+          "keywords": [
+            "fibra",
+            "digestão",
+            "alimentação"
+          ]
+        }
+      ]
+    },
+    "saude_da_crianca": {
+      "topics": [
+        {
+          "intent": "introducao_alimentar",
+          "patterns": [
+            "Quando começar a introdução alimentar no bebê?",
+            "Qual a idade ideal para iniciar alimentos sólidos?"
+          ],
+          "responses": [
+            "A introdução alimentar deve começar aos 6 meses, mantendo o aleitamento materno. Ofereça alimentos naturais, sem sal e açúcar."
+          ],
+          "context": "nutrição_infantil, desenvolvimento",
+          "keywords": [
+            "bebê",
+            "alimentação",
+            "introdução alimentar"
+          ]
+        },
+        {
+          "intent": "vacinas_bebe",
+          "patterns": [
+            "Quais vacinas o bebê deve tomar no primeiro ano?",
+            "Qual é o calendário vacinal infantil?"
+          ],
+          "responses": [
+            "BCG, Hepatite B, Pentavalente, VIP/VOP, Rotavírus, Pneumocócica e Meningocócica fazem parte do calendário nos primeiros 12 meses. Consulte o SUS ou pediatra para detalhes."
+          ],
+          "context": "vacinação_infantil, prevenção",
+          "keywords": [
+            "vacina",
+            "bebê",
+            "imunização"
+          ]
+        }
+      ]
+    },
+    "saude_do_idoso": {
+      "topics": [
+        {
+          "intent": "prevencao_quedas",
+          "patterns": [
+            "Como prevenir quedas em idosos?",
+            "O que fazer para evitar acidentes com idosos em casa?"
+          ],
+          "responses": [
+            "Use calçados antiderrapantes, instale barras de apoio, retire tapetes soltos e mantenha boa iluminação nos ambientes."
+          ],
+          "context": "idosos, segurança",
+          "keywords": [
+            "quedas",
+            "idoso",
+            "acidente"
+          ]
+        },
+        {
+          "intent": "atividade_idosos",
+          "patterns": [
+            "Idosos devem praticar atividade física?",
+            "Que tipo de exercício é indicado para idosos?"
+          ],
+          "responses": [
+            "Sim! Caminhadas, alongamentos, hidroginástica e exercícios leves ajudam na mobilidade, equilíbrio e saúde mental dos idosos."
+          ],
+          "context": "atividade_física, envelhecimento_ativo",
+          "keywords": [
+            "idoso",
+            "exercício",
+            "atividade física"
+          ]
+        }
+      ]
+    },
+    "saude_bucal": {
+      "topics": [
+        {
+          "intent": "escovar_dentes_corretamente",
+          "patterns": [
+            "Qual a forma correta de escovar os dentes?",
+            "Como escovar os dentes direito?"
+          ],
+          "responses": [
+            "Escove pelo menos 2x ao dia com escova macia e creme com flúor. Use movimentos suaves e circulares e escove também a língua."
+          ],
+          "context": "saúde_bucal, higiene",
+          "keywords": [
+            "escovação",
+            "dente",
+            "higiene bucal"
+          ]
+        },
+        {
+          "intent": "fio_dental_importancia",
+          "patterns": [
+            "Por que é importante usar fio dental?",
+            "Fio dental faz diferença mesmo?"
+          ],
+          "responses": [
+            "Sim! O fio dental remove resíduos e placa bacteriana entre os dentes, prevenindo cáries e gengivite."
+          ],
+          "context": "saúde_bucal, prevenção",
+          "keywords": [
+            "fio dental",
+            "cárie",
+            "gengiva"
+          ]
+        }
+      ]
+    },
+    "doencas_infecciosas": {
+      "topics": [
+        {
+          "intent": "sintomas_dengue",
+          "patterns": [
+            "Quais são os sintomas da dengue?",
+            "Como sei se estou com dengue?"
+          ],
+          "responses": [
+            "Febre alta, dor atrás dos olhos, dor muscular e nas articulações, náusea e manchas vermelhas na pele. Procure atendimento médico."
+          ],
+          "context": "doença_infecciosa, dengue",
+          "keywords": [
+            "dengue",
+            "mosquito",
+            "febre"
+          ]
+        },
+        {
+          "intent": "prevencao_dengue",
+          "patterns": [
+            "Como prevenir a dengue?",
+            "O que fazer para evitar o mosquito da dengue?"
+          ],
+          "responses": [
+            "Elimine água parada, limpe calhas, mantenha caixas d'água fechadas e use repelente."
+          ],
+          "context": "doença_infecciosa, prevenção",
+          "keywords": [
+            "aedes",
+            "mosquito",
+            "dengue"
+          ]
+        }
+      ]
+    },
+    "saude_sexual": {
+      "topics": [
+        {
+          "intent": "preservativo_importancia",
+          "patterns": [
+            "Por que é importante usar camisinha?",
+            "Preservativo protege de quê?"
+          ],
+          "responses": [
+            "A camisinha previne ISTs como HIV, sífilis e gonorreia, além de evitar gravidez indesejada. Deve ser usada em todas as relações sexuais."
+          ],
+          "context": "prevenção, saúde sexual",
+          "keywords": [
+            "camisinha",
+            "sexo seguro",
+            "IST"
+          ]
+        },
+        {
+          "intent": "consultas_ginecologicas",
+          "patterns": [
+            "Com que frequência a mulher deve ir ao ginecologista?",
+            "Preciso fazer exame ginecológico todo ano?"
+          ],
+          "responses": [
+            "Sim, o ideal é fazer consultas anuais para rastrear infecções, câncer de colo do útero e outras condições."
+          ],
+          "context": "saúde da mulher, prevenção",
+          "keywords": [
+            "ginecologista",
+            "mulher",
+            "exames"
+          ]
+        }
+      ]
+    },
+    "covid19": {
+      "topics": [
+        {
+          "intent": "sintomas_covid",
+          "patterns": [
+            "Quais são os sintomas da COVID-19?",
+            "Como saber se estou com COVID?"
+          ],
+          "responses": [
+            "Febre, tosse, dor de garganta, perda de olfato e paladar, dor no corpo e cansaço. Em casos graves, falta de ar."
+          ],
+          "context": "covid, sintomas",
+          "keywords": [
+            "COVID-19",
+            "sintomas",
+            "coronavírus"
+          ]
+        },
+        {
+          "intent": "vacina_covid",
+          "patterns": [
+            "Ainda preciso tomar vacina contra COVID?",
+            "COVID-19 ainda precisa de reforço?"
+          ],
+          "responses": [
+            "Sim. Doses de reforço são indicadas conforme faixa etária e comorbidades. Consulte as orientações atualizadas do Ministério da Saúde."
+          ],
+          "context": "vacinação, COVID-19",
+          "keywords": [
+            "vacina",
+            "covid",
+            "reforço"
+          ]
+        }
+      ]
+    },
+    "medicamentos": {
+      "topics": [
+        {
+          "intent": "automedicacao_riscos",
+          "patterns": [
+            "Faz mal tomar remédio por conta própria?",
+            "Quais os riscos da automedicação?"
+          ],
+          "responses": [
+            "A automedicação pode mascarar sintomas, causar reações adversas e intoxicação. Sempre consulte um profissional antes de usar qualquer medicamento."
+          ],
+          "context": "medicação, risco",
+          "keywords": [
+            "automedicação",
+            "remédio",
+            "intoxicação"
+          ]
+        },
+        {
+          "intent": "antibiotico_uso",
+          "patterns": [
+            "Posso parar de tomar antibiótico quando melhorar?",
+            "Por que preciso terminar o antibiótico?"
+          ],
+          "responses": [
+            "É essencial seguir o tempo prescrito, mesmo com melhora. Interromper o uso pode gerar resistência bacteriana."
+          ],
+          "context": "medicamentos, antibiótico",
+          "keywords": [
+            "antibiótico",
+            "tratamento",
+            "resistência"
+          ]
+        }
+      ]
+    }
+  }
+}

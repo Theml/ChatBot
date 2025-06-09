@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/index.css">
+    <title>Salus - Assistente de Saúde Inteligente</title>
+    
+</head>
+<body>
+    <div class="app-container">
+        <div class="status-bar loading" id="status-bar">
+            🔄 Carregando modelo...
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">🏥</div>
+                    <div class="logo-text">Salus</div>
+                </div>
+                <button class="new-chat-btn" id="new-chat-btn">
+                    ➕ Nova Conversa
+                </button>
+            </div>
+            
+            <div class="conversation-list" id="conversation-list">
+                <!-- Conversas serão adicionadas aqui -->
+            </div>
+            
+            <div class="sidebar-footer">
+                Salus Health Assistant v2.0<br>
+                Powered by FastAPI & GPT4All
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="chat-header">
+                <h1>Salus - Assistente de Saúde Inteligente</h1>
+                <p>Seu companheiro para uma vida mais saudável</p>
+            </div>
+
+            <!-- Welcome Screen -->
+            <div class="welcome-screen" id="welcome-screen">
+                <div class="welcome-icon">🏥</div>
+                <h2>Bem-vindo ao Salus!</h2>
+                <p>
+                    Sou seu assistente pessoal de saúde, pronto para ajudar com informações sobre 
+                    bem-estar, nutrição, exercícios e hábitos saudáveis. Comece uma conversa para 
+                    descobrir como posso te ajudar!
+                </p>
+                <button class="new-chat-btn" id="welcome-chat-btn">
+                    💬 Começar Conversa
+                </button>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="chat-messages" id="chat-messages" style="display: none;">
+                <!-- Mensagens aparecerão aqui -->
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area" id="input-area" style="display: none;">
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="user-input" 
+                            placeholder="Digite sua pergunta sobre saúde..."
+                            rows="1"
+                        ></textarea>
+                        <div class="char-counter" id="char-counter">0/500</div>
+                    </div>
+                    <button class="send-btn" id="send-btn">
+                        <span>Enviar</span>
+                        <span>🚀</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Health Tips -->
+            <div class="health-tips" id="health-tips" style="display: none;">
+                <h3>💡 Dica de Saúde</h3>
+                <p id="daily-tip">Carregando dica...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class SalusChat {
+            constructor() {
+                this.conversations = new Map();
+                this.activeConversationId = null;
+                this.isModelReady = false;
+                this.isTyping = false;
+                
+                this.initializeElements();
+                this.setupEventListeners();
+                this.checkModelStatus();
+                this.loadDailyTip();
+                
+                // Auto-resize textarea
+                this.setupTextareaResize();
+            }
+
+            initializeElements() {
+                this.statusBar = document.getElementById('status-bar');
+                this.sidebar = document.getElementById('sidebar');
+                this.conversationList = document.getElementById('conversation-list');
+                this.welcomeScreen = document.getElementById('welcome-screen');
+                this.chatMessages = document.getElementById('chat-messages');
+                this.inputArea = document.getElementById('input-area');
+                this.healthTips = document.getElementById('health-tips');
+                this.userInput = document.getElementById('user-input');
+                this.sendBtn = document.getElementById('send-btn');
+                this.charCounter = document.getElementById('char-counter');
+                this.dailyTip = document.getElementById('daily-tip');
+            }
+
+            setupEventListeners() {
+                // Botões de nova conversa
+                document.getElementById('new-chat-btn').addEventListener('click', () => this.startNewConversation());
+                document.getElementById('welcome-chat-btn').addEventListener('click', () => this.startNewConversation());
+                
+                // Envio de mensagens
+                this.sendBtn.addEventListener('click', () => this.sendMessage());
+                this.userInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+                // Atualização do contador de caracteres
+                this.userInput.addEventListener('input', () => {
+                    const charCount = this.userInput.value.length;
+                    this.charCounter.textContent = `${charCount}/500`;
+                    if (charCount > 500) {
+                        this.userInput.value = this.userInput.value.slice(0, 500);
+                        this.charCounter.textContent = '500/500';
+                    }
+                });
+                // Clique fora do sidebar para fechá-lo
+                document.addEventListener('click', (e) => {
+                    if (!this.sidebar.contains(e.target) && !e.target.closest('.new-chat-btn')) {
+                        this.sidebar.classList.remove('open');
+                    }
+                });
+                // Clique no sidebar para abri-lo
+                document.getElementById('sidebar').addEventListener('click', (e) => {
+                    if (e.target.closest('.new-chat-btn')) {
+                        this.sidebar.classList.toggle('open');
+                    }
+                });
+                // Redimensionamento automático do textarea
+                this.userInput.addEventListener('input', () => {
+                    this.userInput.style.height = 'auto';
+                    this.userInput.style.height = `${this.userInput.scrollHeight}px`;
+                });
+            }
+            async checkModelStatus() {
+                this.updateStatusBar('loading', '🔄 Carregando modelo...');
+                try {
+                    const response = await fetch('/api/model/status');
+                    const data = await response.json();                    if (data.ready) {
+                        this.isModelReady = true;
+                        this.updateStatusBar();
+                        // Inicia uma nova conversa quando o modelo estiver pronto
+                        this.startNewConversation();
+                        this.welcomeScreen.style.display = 'none';
+                        this.chatMessages.style.display = 'flex';
+                        this.inputArea.style.display = 'flex';
+                        this.healthTips.style.display = 'block';
+                    } else {
+                        this.updateStatusBar('error', '❌ Erro ao carregar o modelo.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao verificar o status do modelo:', error);
+                    this.updateStatusBar();
+                }
+            }
+            updateStatusBar(status, message) {
+                this.statusBar.className = `status-bar ${status}`;
+                this.statusBar.textContent = message;
+            }            async loadDailyTip() {
+                try {
+                    const response = await fetch('/api/health/tip');
+                    const data = await response.json();
+                    this.dailyTip.textContent = data.tip || "Dica não disponível no momento.";
+                } catch (error) {
+                    console.error('Erro ao carregar dica de saúde:', error);
+                    this.dailyTip.textContent = '❌ Erro ao carregar dica de saúde.';
+                }
+            }
+            startNewConversation() {
+                const conversationId = Date.now().toString();
+                this.activeConversationId = conversationId;
+                this.conversations.set(conversationId, []);
+                
+                this.updateConversationList();
+                this.showChatArea();
+            }
+            updateConversationList() {
+                this.conversationList.innerHTML = '';
+                this.conversations.forEach((messages, id) => {
+                    const item = document.createElement('div');
+                    item.className = 'conversation-item';
+                    item.textContent = `Conversa ${new Date(parseInt(id)).toLocaleString()}`;
+                    item.onclick = () => this.loadConversation(id);
+                    if (id === this.activeConversationId) {
+                        item.classList.add('active');
+                    }
+                    this.conversationList.appendChild(item);
+                });
+            }
+            showChatArea() {
+                this.welcomeScreen.style.display = 'none';
+                this.chatMessages.style.display = 'flex';
+                this.inputArea.style.display = 'flex';
+                this.healthTips.style.display = 'block';
+            }
+            loadConversation(id) {
+                this.activeConversationId = id;
+                this.updateConversationList();
+                this.displayMessages();
+            }
+            displayMessages() {
+                this.chatMessages.innerHTML = '';
+                const messages = this.conversations.get(this.activeConversationId) || [];
+                messages.forEach(msg => {
+                    this.addMessage(msg);
+                });
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+            addMessage(message) {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${message.role}`;
+                
+                const avatar = document.createElement('div');
+                avatar.className = `avatar ${message.role}`;
+                avatar.textContent = message.role === 'user' ? '👤' : '🤖';
+                
+                const content = document.createElement('div');
+                content.className = 'message-content';
+                content.textContent = message.content;
+                
+                messageElement.appendChild(avatar);
+                messageElement.appendChild(content);
+                
+                this.chatMessages.appendChild(messageElement);
+            }            
+            async sendMessage() {
+                const input = this.userInput.value.trim();
+                if (!input || !this.isModelReady) return;
+
+                const medicalTerms = ['diagnóstico', 'tratamento', 'medicamento', 'doença'];
+                if (medicalTerms.some(term => input.toLowerCase().includes(term))) {
+                    this.addMessage({ 
+                        role: 'bot', 
+                        content: '⚠️ Para questões médicas específicas, recomendo consultar um profissional de saúde.' 
+                    });
+                    return;
+                }
+
+                // Verifica se existe uma conversa ativa, se não, cria uma nova
+                if (!this.activeConversationId) {
+                    this.startNewConversation();
+                }
+
+                this.addMessage({ role: 'user', content: input });
+                this.userInput.value = '';
+                this.charCounter.textContent = '0/500';
+                this.userInput.style.height = 'auto';
+
+                // Garante que a conversa existe
+                if (!this.conversations.has(this.activeConversationId)) {
+                    this.conversations.set(this.activeConversationId, []);
+                }
+                const conversation = this.conversations.get(this.activeConversationId);
+                conversation.push({ role: 'user', content: input });
+
+                this.displayMessages();
+                this.isTyping = true;
+                this.showTypingIndicator();
+
+                try {
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: input, conversationId: this.activeConversationId })
+                    });
+                    const data = await response.json();
+                    this.isTyping = false;
+                    this.hideTypingIndicator();
+                    this.addMessage({ role: 'bot', content: data.response });
+                    conversation.push({ role: 'bot', content: data.response });
+                    this.displayMessages();
+                } catch (error) {
+                    console.error('Erro ao enviar mensagem:', error);
+                    this.isTyping = false;
+                    this.hideTypingIndicator();
+                    this.addMessage({ role: 'bot', content: '❌ Erro ao processar sua solicitação.' });
+                }
+            }
+
+            showTypingIndicator() {
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'typing-indicator';
+                typingIndicator.id = 'typing-indicator';
+                
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'typing-dot';
+                    typingIndicator.appendChild(dot);
+                }
+                
+                this.chatMessages.appendChild(typingIndicator);
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+
+            hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            setupTextareaResize() {
+                this.userInput.style.height = 'auto';
+                this.userInput.style.height = `${this.userInput.scrollHeight}px`;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            window.salusChat = new SalusChat();
+        });
+    </script>
+</body>
+</html>
